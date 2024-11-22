@@ -4,6 +4,8 @@ import re
 import tiktoken
 from typing import List
 
+from config import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
+
 
 def format_filename(filename: str) -> str:
     """
@@ -35,14 +37,14 @@ def parse_raw_document(raw_file: Path) -> str:
     return '\n'.join(paragraphs)
 
 
-def chunk_text(text: str, chunk_size: int = 6000, overlap: int = 0) -> List[str]:
+def chunk_text(text: str, chunk_size: int = DEFAULT_CHUNK_SIZE, overlap: int = DEFAULT_CHUNK_OVERLAP) -> List[str]:
     """
     Chunk the text into smaller segments based on token count.
     
     Args:
         text (str): The input text to be chunked.
-        chunk_size (int, optional): The size of each chunk in tokens. Defaults to 6000.
-        overlap (int, optional): The number of overlapping tokens between chunks. Defaults to 0.
+        chunk_size (int, optional): The size of each chunk in tokens.
+        overlap (int, optional): The number of overlapping tokens between chunks.
         
     Returns:
         List[str]: A list of text chunks.
