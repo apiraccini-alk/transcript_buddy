@@ -4,10 +4,12 @@ from groq import Groq
 from openai import OpenAI
 from dotenv import load_dotenv
 
+from config import USE_OPENAI
+
 load_dotenv()
 
 
-def llm(system_prompt: str, user_text: str, oai: bool = True) -> str:
+def llm(system_prompt: str, user_text: str, oai: bool = USE_OPENAI) -> str:
     """
     Generate a response from the language model based on the provided prompts.
 

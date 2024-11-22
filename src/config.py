@@ -11,6 +11,9 @@ OUTPUT_PATH = DATA_DIR / "output"
 # File patterns
 INPUT_FILE_PATTERN = "*.docx"
 
+# LLM settings
+USE_OPENAI = True
+
 # Chunking settings
 DEFAULT_CHUNK_SIZE = 12000
 DEFAULT_CHUNK_OVERLAP = 0
