@@ -35,7 +35,6 @@ def main():
         for raw_file in raw_files:
             if process_file(raw_file, OUTPUT_PATH):
                 success_count += 1
-                break
         
         # Log summary
         logging.info(f"Processing complete. Successfully processed {success_count}/{len(raw_files)} files")
