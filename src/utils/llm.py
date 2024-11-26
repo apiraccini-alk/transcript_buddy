@@ -23,7 +23,7 @@ def llm(system_prompt: str, user_text: str, oai: bool = USE_OPENAI) -> str:
     """
     if oai:
         client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-        model = "gpt-4o-2024-11-20" # "gpt-4-turbo-2024-04-09"
+        model =  "gpt-4o-2024-11-20"  # "gpt-4-turbo-2024-04-09"  
     else:
         client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
         model = "llama-3.1-70b-versatile"
@@ -69,9 +69,13 @@ Instructions:\
 - Formatting: The answer needs to be formatted in the following way:\
 # Title of the guide (very general)\
 ## Heading of relevant section (very detailed description of the section topic).\
-The section should have an opening paragraph and then a bullet point list with the main points.\
-The guide must take into consideration complete transcript. You can't give incomplete guide, but always provide information up until the end! Explain with details, and combine logical units so that it is more rich of text, but don't invent. I don't want to have billions of headings.""",
-
+Each section must start with a discursive opening paragraph (not in bullet points) to introduce the topic. After the paragraph, include a bullet point list with the main points.\
+If the bullet point list starts with a title (for example, "Main points:" followed by a list of important points), this title should not be in a bullet point list, so it should not be indented as the successive points.\
+The title of the bullet point list should be written in bold above the bullet points, but it must NOT appear as part of the bullet points. After this title, always put a blank line before starting the proper bullet point list.\
+The bullet points themselves should only contain the main points, properly formatted as a bullet point list, and each point should be in a single row. So you have to start a new line after each point.\
+Each bullet point should start with the main field name in bold, followed by a colon and its description.\
+The guide must take into consideration complete transcript. You can't give incomplete guide, but always provide information up until the end! Explain with details, and combine logical units so that it is more rich of text, but don't invent. I don't want to have billions of headings.
+""",
 
     "FORMATTER": """You will receive a text which is obtained by joining several trascript chunks processed by an LLM. 
 Your task is to format the text in a coherent way. The final text should be written in markdown, use headers, subheaders and (when useful) bullet points. 

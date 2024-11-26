@@ -35,32 +35,3 @@ def parse_raw_document(raw_file: Path) -> str:
     doc = docx.Document(raw_file)
     paragraphs = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
     return '\n'.join(paragraphs)
-
-
-def chunk_text(text: str, chunk_size: int = DEFAULT_CHUNK_SIZE, overlap: int = DEFAULT_CHUNK_OVERLAP) -> List[str]:
-    """
-    Chunk the text into smaller segments based on token count.
-    
-    Args:
-        text (str): The input text to be chunked.
-        chunk_size (int, optional): The size of each chunk in tokens.
-        overlap (int, optional): The number of overlapping tokens between chunks.
-        
-    Returns:
-        List[str]: A list of text chunks.
-    """
-    encoding = tiktoken.get_encoding("cl100k_base")
-    tokens = encoding.encode(text)
-    chunks = []
-    
-    i = 0
-    while i < len(tokens):
-        # Get chunk of tokens
-        chunk_tokens = tokens[i:i + chunk_size]
-        # Decode chunk back to text
-        chunk_text = encoding.decode(chunk_tokens)
-        chunks.append(chunk_text)
-        # Move to next chunk, considering overlap
-        i += (chunk_size - overlap)
-    
-    return chunks

@@ -29,12 +29,6 @@ def process_file(raw_file: Path, output_path: Path) -> bool:
 
         # TODO: Add check for maximum token count
 
-        # # Clean text
-        # cleaned_text = llm(
-        #     system_prompt=prompts["CLEANER"],
-        #     user_text=raw_text,
-        # )
-
         # Obtain final doc
         final_doc = llm(
             system_prompt=prompts["USER_GUIDE"],
