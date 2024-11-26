@@ -6,7 +6,7 @@ import docx
 import markdown
 import re
 
-from utils.document_helpers import parse_raw_document, chunk_text, format_filename
+from utils.document_helpers import parse_raw_document, format_filename
 from utils.llm import llm, prompts
 
 
