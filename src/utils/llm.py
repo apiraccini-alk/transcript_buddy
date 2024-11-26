@@ -48,6 +48,14 @@ def llm(system_prompt: str, user_text: str, oai: bool = USE_OPENAI) -> str:
 
 
 prompts = {
+    "TOC": """You will receive a text, which is a transcript of a Teams meeting, where a senior team member is conducting an onboarding session for new joiners.
+Your task is to create a table of contents. Therefore, you need to understand the structure of the document and the major divisions like chapters or main sections.
+Then, if there are other subtopics corraleted, you should recognize smaller divisions within those sections, such as subsections or subheadings.
+Keep only the table of contents. Don't say anything else. Keep everything in Italian. Format it in markdown.
+""",
+
+
+
     "CLEANER": """You are an expert transcript cleaner. Your will receive a segment of a transcript from a Teams meeting, where a senior team member is conducting an onboarding session for new joiners.
 Your task is to clean the contents of the transcript, keeping only the relevant information and discarding any irrelevant, conversational or nonsensical text.
 It should become a piece of documentation, accessible by someone that didn't follow the recording in order to study for their onboarding.
@@ -55,9 +63,15 @@ You should be verbose and ensure that every bit of relevant information is repor
 Common terms that may be misspelled include: "PowerBI", "SharePoint", "Dataiku", "Amplifon", "CRM", "Customer", "Prospect", "Lead", "Hot", "Cold", "Churn", "EDW", "BDFL" (instead of DFL), "Appointments", "Tests", "Trials", "Sales", "ALK", "Job standard", "Consol customer key", "All events" (instead of Olive). Ensure these and any other misspelled words are corrected in the cleaned transcript.
 Don't ever cite the lecturer or the students.
 You must not translate or alter the language used, the output text should be in Italian. This is of vital importance!""",
-    "FORMATTER": """You will receive a text which is obtained by joining several trascript chunks processed by an LLM. 
-Your task is to format the text in a coherent way. The final text should be written in markdown, use headers, subheaders and (when useful) bullet points. 
-The main sections and subsections should be meaningful, well organized and not too short. You can reorganize the content as you see fit to achieve this objective.
+    
+    
+    "FORMATTER": """You will receive a text, which is a transcript of a Teams meeting, where a senior team member is conducting an onboarding session for new joiners.
+Your task is to perform the following actions:
+1. Clean the text, keeping only the relevant information and discarding any irrelevant, conversational or nonsensical text.
+2. Correct any misspelled words; common terms that may be misspelled include: "PowerBI", "SharePoint", "Dataiku", "Amplifon", "CRM", "Customer", "Prospect", "Lead", "Hot", "Cold", "Churn", "EDW", "BDFL" (instead of DFL), "Appointments", "Tests", "Trials", "Sales", "ALK", "Job standard", "Consol customer key", "All events" (instead of Olive). Ensure these and any other misspelled words are corrected in the cleaned transcript.
+3. Format the text in markdown following the provided table of contents.
 The text should retain all the relevant information from the original transcript. 
-You must not translate or alter the language used, the output text should be in Italian. this is of vital importance!.""",
+You must not translate or alter the language used, the output text should be in Italian. this is of vital importance!.
+Here is the table of contents:
+{toc}""",
 }
