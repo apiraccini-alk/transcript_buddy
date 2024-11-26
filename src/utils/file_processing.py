@@ -26,27 +26,19 @@ def process_file(raw_file: Path, output_path: Path) -> bool:
         
         # Parse raw file
         raw_text = parse_raw_document(raw_file)
-        
-        # Obtain text chunks
-        text_chunks = chunk_text(raw_text)
-        
-        # Clean text chunks
-        cleaned_chunks = []
-        for i, chunk in enumerate(text_chunks, 1):
-            logging.info(f"Processing chunk {i}/{len(text_chunks)}")
-            chunk_summary = llm(
-                system_prompt=prompts["CLEANER"],
-                user_text=f"This is the transcript chunk: {chunk}",
-            )
-            cleaned_chunks.append(chunk_summary)
-        
-        # Combine cleaned chunks and format
-        cleaned_text = "\n\n".join(cleaned_chunks)
+
+        # TODO: Add check for maximum token count
+
+        # # Clean text
+        # cleaned_text = llm(
+        #     system_prompt=prompts["CLEANER"],
+        #     user_text=raw_text,
+        # )
 
         # Obtain final doc
         final_doc = llm(
-            system_prompt=prompts["FORMATTER"],
-            user_text=cleaned_text,
+            system_prompt=prompts["USER_GUIDE"],
+            user_text=raw_text,
         )
 
         # Add header and disclaimer
