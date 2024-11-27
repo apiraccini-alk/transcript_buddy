@@ -4,7 +4,7 @@ import re
 import tiktoken
 from typing import List
 
-from config import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
+from config import MAX_TOKENS
 
 
 def format_filename(filename: str) -> str:
@@ -37,30 +37,17 @@ def parse_raw_document(raw_file: Path) -> str:
     return '\n'.join(paragraphs)
 
 
-def chunk_text(text: str, chunk_size: int = DEFAULT_CHUNK_SIZE, overlap: int = DEFAULT_CHUNK_OVERLAP) -> List[str]:
+def check_token_count(text: str, max_tokens: int = MAX_TOKENS) -> bool:
     """
-    Chunk the text into smaller segments based on token count.
+    Check if the text exceeds the maximum token limit.
     
     Args:
-        text (str): The input text to be chunked.
-        chunk_size (int, optional): The size of each chunk in tokens.
-        overlap (int, optional): The number of overlapping tokens between chunks.
+        text (str): The text to check
+        max_tokens (int): Maximum number of tokens allowed
         
     Returns:
-        List[str]: A list of text chunks.
+        bool: True if within limit, False if exceeds
     """
     encoding = tiktoken.get_encoding("cl100k_base")
-    tokens = encoding.encode(text)
-    chunks = []
-    
-    i = 0
-    while i < len(tokens):
-        # Get chunk of tokens
-        chunk_tokens = tokens[i:i + chunk_size]
-        # Decode chunk back to text
-        chunk_text = encoding.decode(chunk_tokens)
-        chunks.append(chunk_text)
-        # Move to next chunk, considering overlap
-        i += (chunk_size - overlap)
-    
-    return chunks
+    num_tokens = len(encoding.encode(text))
+    return num_tokens <= max_tokens

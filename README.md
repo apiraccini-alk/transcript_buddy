@@ -11,6 +11,8 @@ It was developed to process onboarding lessons transcripts, but the prompts can 
 - Handles multiple files in batch processing
 - Maintains original content while improving readability
 - Generates clean, structured output files
+- Token limit validation to ensure model compatibility
+- Support for both OpenAI and Groq language models
 
 ## Setup
 
@@ -37,6 +39,15 @@ It was developed to process onboarding lessons transcripts, but the prompts can 
     GROQ_API_KEY=your_groq_api_key
     ```
 
+## Configuration
+
+The application can be configured through the `config.py` file:
+
+- `USE_OPENAI`: Toggle between OpenAI (True) and Groq (False) models
+- `MAX_TOKENS`: Maximum token limit for text processing (default: 128k)
+- `OPENAI_MODEL`: OpenAI model to use (default: "gpt-4o-2024-11-20")
+- `GROQ_MODEL`: Groq model to use (default: "llama-3.1-70b-versatile")
+
 ## Usage
 
 1. Create the necessary directories:
@@ -52,6 +63,14 @@ It was developed to process onboarding lessons transcripts, but the prompts can 
     ```
 
 4. The processed transcripts will be saved in the `data/output` directory.
+
+## Output Format
+
+The processed transcripts are saved as HTML files with:
+- A header indicating the source (Amplifon CoE)
+- The cleaned and formatted transcript content
+- A disclaimer about AI-generated content
+- Markdown formatting for better readability
 
 ## Project Structure
 
@@ -79,12 +98,37 @@ transcript_buddy/
 - `markdown`: Markdown processing
 - `python-dotenv`: Environment variable management
 - `openai`: OpenAI API client
-- `requests`: HTTP client for API calls
+- `groq`: Groq API client
 
 ## Error Handling
 
 The application includes comprehensive error handling:
 - Logs all operations with timestamps
+- Validates API keys before processing
+- Checks token limits to prevent model errors
 - Provides clear error messages for common issues
 - Continues processing remaining files if one file fails
 - Creates detailed processing summaries
+
+## Troubleshooting
+
+Common issues and solutions:
+
+1. **Missing API Keys**
+   - Ensure your `.env` file exists and contains the required API keys
+   - Check that the API keys are valid and not expired
+
+2. **Token Limit Exceeded**
+   - The file content exceeds the maximum token limit (128k)
+   - Consider splitting the file into smaller parts
+
+3. **File Format Issues**
+   - Ensure input files are in `.docx` format
+   - Check that files are not corrupted or password-protected
+
+4. **Processing Errors**
+   - Check the logs for specific error messages
+   - Verify that the input file is a valid Teams transcript
+   - Ensure you have an active internet connection
+
+For any other issues, please check the logs or contact the maintainers.
