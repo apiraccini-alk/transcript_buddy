@@ -4,7 +4,7 @@ import re
 import tiktoken
 from typing import List
 
-from config import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
+from config import MAX_TOKENS
 
 
 def format_filename(filename: str) -> str:
@@ -35,3 +35,19 @@ def parse_raw_document(raw_file: Path) -> str:
     doc = docx.Document(raw_file)
     paragraphs = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
     return '\n'.join(paragraphs)
+
+
+def check_token_count(text: str, max_tokens: int = MAX_TOKENS) -> bool:
+    """
+    Check if the text exceeds the maximum token limit.
+    
+    Args:
+        text (str): The text to check
+        max_tokens (int): Maximum number of tokens allowed
+        
+    Returns:
+        bool: True if within limit, False if exceeds
+    """
+    encoding = tiktoken.get_encoding("cl100k_base")
+    num_tokens = len(encoding.encode(text))
+    return num_tokens <= max_tokens
