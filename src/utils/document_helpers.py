@@ -6,6 +6,20 @@ from typing import List
 
 from config import MAX_TOKENS
 
+# Define a dictionary to store words to replace
+replace_dict = {
+    "SEREN": "CRM",
+    "CICCI": "CC",
+    "DFL": "BDFL",
+    "Olive": "All events",
+    "Herring": "Hearing",
+    "Pioneri": "Pioneros",
+    "Tagliamé": "Teyame",
+    "Ark" : "Alk",
+    "Pioneers" : "Pioneros",
+    "ALC" : "Alk"
+
+}
 
 def format_filename(filename: str) -> str:
     """
